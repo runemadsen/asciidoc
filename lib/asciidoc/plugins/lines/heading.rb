@@ -9,7 +9,7 @@ plugin = {
       return false
     end
     
-    heading = AsciiElement.new(plugin[:name])
+    heading = AsciiDoc::AsciiElement.new(plugin[:name])
     heading.children << lines.current_line
     element.children << heading
     
@@ -18,4 +18,4 @@ plugin = {
 }
 }
 
-AsciiPlugins::register(plugin)
+AsciiDoc::AsciiPlugins::register(plugin)

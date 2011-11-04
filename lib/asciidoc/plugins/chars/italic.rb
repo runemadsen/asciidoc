@@ -14,10 +14,10 @@ plugin = {
       body += chars.current_char
     end
 
-    italic = AsciiElement.new(plugin[:name])
+    italic = AsciiDoc::AsciiElement.new(plugin[:name])
     italic.children << body
-    element.children << AsciiBlock.new(italic).element 
+    element.children << AsciiDoc::AsciiBlock.new(italic).element 
 	}
 }
 
-AsciiCharPlugins::register(plugin)
+AsciiDoc::AsciiCharPlugins::register(plugin)

@@ -1,3 +1,5 @@
+puts "Bold is required"
+
 plugin = {
   :name => :bold,
 	:regexp  =>  /\*/,
@@ -14,10 +16,10 @@ plugin = {
       body += chars.current_char
     end
 
-    bold = AsciiElement.new(plugin[:name])
+    bold = AsciiDoc::AsciiElement.new(plugin[:name])
     bold.children << body
-    element.children << AsciiBlock.new(bold).element 
+    element.children << AsciiDoc::AsciiBlock.new(bold).element 
 	}
 }
 
-AsciiCharPlugins::register(plugin)
+AsciiDoc::AsciiCharPlugins::register(plugin)

@@ -2,13 +2,13 @@ module AsciiDoc
   
   class AsciiBlock
 
-    include AsciiCharPlugins
+    include AsciiDoc::AsciiCharPlugins
 
     attr_accessor :element
 
     def initialize(element)
       @element = element
-      @chars = AsciiChars.new(@element.children[0]) # only works when passing an element with a single child (the whole paragraph)
+      @chars = AsciiDoc::AsciiChars.new(@element.children[0]) # only works when passing an element with a single child (the whole paragraph)
       @element.children[0] = ""
       parse_chars
     end

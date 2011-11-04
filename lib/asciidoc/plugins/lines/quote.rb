@@ -10,11 +10,11 @@ plugin = {
       body += lines.current_line
     end
     
-    quote = AsciiElement.new(plugin[:name])
+    quote = AsciiDoc::AsciiElement.new(plugin[:name])
     quote.children << body
     element.children << quote
     
 	}
 }
 
-AsciiPlugins::register(plugin)
+AsciiDoc::AsciiPlugins::register(plugin)

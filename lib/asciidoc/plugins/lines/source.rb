@@ -17,7 +17,7 @@ plugin = {
       body += "\n"
     end
     
-    source = AsciiElement.new(plugin[:name])
+    source = AsciiDoc::AsciiElement.new(plugin[:name])
     source.children << "Java"
     source.children << body
     
@@ -25,4 +25,4 @@ plugin = {
 	}
 }
 
-AsciiPlugins::register(plugin)
+AsciiDoc::AsciiPlugins::register(plugin)

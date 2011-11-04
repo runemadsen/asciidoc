@@ -10,10 +10,10 @@ plugin = {
       body += lines.current_line
     end
     
-    paragraph = AsciiElement.new(plugin[:name])
+    paragraph = AsciiDoc::AsciiElement.new(plugin[:name])
     paragraph.children << body
-    element.children << AsciiBlock.new(paragraph).element
+    element.children << AsciiDoc::AsciiBlock.new(paragraph).element
 	}
 }
 
-AsciiPlugins::register(plugin)
+AsciiDoc::AsciiPlugins::register(plugin)
