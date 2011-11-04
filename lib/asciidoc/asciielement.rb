@@ -26,6 +26,17 @@ module AsciiDoc
       end
       content
     end
+    
+    # AsciiDoc Attributes
+    # ---------------------------------------------------
+    
+    def attributes
+      @attributes
+    end
+
+    def attributes=(att)
+      @attributes = att
+    end
 
   end
   

@@ -1,3 +1,5 @@
+require 'asciidoc/macrohelper'
+
 require 'asciidoc/asciiplugins'
 require 'asciidoc/asciicharplugins'
 

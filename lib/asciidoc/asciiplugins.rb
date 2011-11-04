@@ -5,7 +5,6 @@ module AsciiDoc
     Plugins = []
 
     def self.register(plugin)
-      puts "register plugin baby: #{Plugins.size}"
       Plugins << plugin
     end
 

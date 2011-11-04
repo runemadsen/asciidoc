@@ -1,5 +1,3 @@
-puts "Bold is required"
-
 plugin = {
   :name => :bold,
 	:regexp  =>  /\*/,

@@ -6,7 +6,6 @@ module AsciiDoc
 
     def self.register(plugin)
       CharPlugins << plugin
-      puts "register char plugin baby: #{CharPlugins.size}"
     end
 
     def order_plugins
