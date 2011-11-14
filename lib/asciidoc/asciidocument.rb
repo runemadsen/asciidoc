@@ -9,18 +9,52 @@ module AsciiDoc
       @lines = AsciiDoc::AsciiLines.new(content)
       parse_lines
     end
+    
+    def render(format, template_folder, output_folder)
+      case format
+      when :html
+        render_html(template_folder, output_folder)
+      when :pdf
+        render_pdf(template_folder, output_folder)
+      else
+        raise "Bad Render Format Specified"
+      end
+    end
   
-    def render(template, format)
+    private
+    
+    #  Specific Render Functions
+    # ----------------------------------------------------------------
+    
+    def render_html(template_folder, output_folder)
       views = {}
-      Dir["./templates/#{template}/#{format}/*.html.erb"].each { |file| 
+      Dir["./#{template_folder}/views/*.html.erb"].each { |file| 
         symbol = file.split("/").last.split(".").first.to_sym
         views[symbol] = ERB.new(open(file).read)
       }
       result = @element.render(views)
-      result
+      
+      # if output folder does not exist, create it
+      Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
+      
+      # render html into index.html file
+      html = File.new("./#{output_folder}/index.html", "w+")
+      html.puts(result)
+      
+      # copy all content in /public to the output folder
+      FileUtils.cp_r "./#{template_folder}/public/.", "./#{output_folder}"
+      
+      "#{output_folder}/index.html"
     end
-  
-    private
+    
+    def render_pdf(template_folder, output_folder)
+       Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
+       file_path = render_html(template_folder, "#{output_folder}/temp")
+       output_path = "#{output_folder}/index.pdf"
+       `wkhtmltopdf #{file_path} #{output_path}`
+       FileUtils.rm_rf "./#{output_folder}/temp"
+       "#{output_folder}/index.pdf"
+    end
   
     def parse_lines
       order_plugins
