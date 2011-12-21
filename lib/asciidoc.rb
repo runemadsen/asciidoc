@@ -1,4 +1,4 @@
-require 'asciidoc/macrohelper'
+require 'asciidoc/attributeshelper'
 
 require 'asciidoc/asciiplugins'
 require 'asciidoc/asciicharplugins'

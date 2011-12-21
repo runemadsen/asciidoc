@@ -1,4 +1,5 @@
 plugin = {
+  :order => 2,
   :name => :source,
 	:regexp  => /^\[source,[a-z]+\]$/,
 	:handler => lambda { |lines, element|
@@ -18,7 +19,7 @@ plugin = {
     end
     
     source = AsciiDoc::AsciiElement.new(plugin[:name])
-    source.children << "Java"
+    source.children << "Java" # TODO: This should be dynamic
     source.children << body
     
     element.children << source

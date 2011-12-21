@@ -5,7 +5,7 @@ plugin = {
 	:handler => lambda { |lines, element|   
     macro = AsciiDoc::AsciiElement.new(lines.current_line.gsub(plugin[:regexp], '\k<name>').to_sym)
     macro.children << lines.current_line.gsub(plugin[:regexp], '\k<target>')
-    macro.attributes = AsciiDoc::MacroHelper.parse_attributes(lines.current_line.gsub(plugin[:regexp], '\k<attrlist>'), "alt")
+    macro.attributes = AsciiDoc::AttributesHelper.parse_attributes(lines.current_line.gsub(plugin[:regexp], '\k<attrlist>'))
     element.children << macro
 	}
 }
