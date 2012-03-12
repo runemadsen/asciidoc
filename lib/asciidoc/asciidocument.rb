@@ -51,13 +51,12 @@ module AsciiDoc
        Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
        file_path = render_html(template_folder, "#{output_folder}/temp")
        output_path = "#{output_folder}/index.pdf"
-       `wkhtmltopdf #{file_path} #{output_path}`
+       `wkhtmltopdf #{file_path} #{output_path} --header-html #{template_folder}/header.html`
        FileUtils.rm_rf "./#{output_folder}/temp"
        "#{output_folder}/index.pdf"
     end
   
     def parse_lines
-      order_plugins
       detect_plugins
       while @lines.shift_line do
         unless @lines.current_line =~ /^\s*$/

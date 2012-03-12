@@ -21,6 +21,10 @@ module AsciiDoc
     def next_line
       @lines[@current_index + 1]
     end
+    
+    def nth_line(add)
+      @lines[@current_index + add]
+    end
   
     def current_line
       @lines[@current_index]

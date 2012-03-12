@@ -3,6 +3,7 @@ module AsciiDoc
    
     # parses a string of attributes into a hash
     # string must look like this: "key=value,key=value"
+    # if there are no keys it will be array syntax
     def self.parse_attributes(attributes_string)
       parsed = {}
       values = attributes_string.split(",")

@@ -1,3 +1,11 @@
+Prerequisites
+-------------
+
+You will need to have wkhtmltopdf installed with the patched version of QT. The easiest way to do this on OSX is with Homebrew:
+brew install WKHTMLTOPDF
+
+For other OS: https://github.com/pdfkit/pdfkit/wiki/Installing-WKHTMLTOPDF
+
 Installation
 ------------
 
@@ -14,7 +22,7 @@ Or the bundler equivalent:
 Usage Examples
 --------------
 
-Warning: You need to create a html template in order to output to HTML / PDF. Examples on this can be found in my "magicbookproject" github repo.
+You need to create a html template in order to output to HTML / PDF. Examples on this can be found in my "magicbookproject" github repo.
 
     # create a html file from your asciidoc file
     @document = AsciiDoc::AsciiDocument.new(open("your.asciidoc").read)

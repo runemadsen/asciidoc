@@ -1,5 +1,4 @@
 plugin = {
-  :order => 1,
   :name => :heading,
   :regexp => /^\w+/,
   :handler => lambda { |lines, element|
