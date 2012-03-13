@@ -4,7 +4,15 @@ module AsciiDoc
   
     include AsciiDoc::AsciiPlugins
 
-    def initialize(content)
+    def initialize(file)
+      content = open(file).read
+      
+      # include all asciidoc files
+      path = File.split(file)
+      content = content.gsub(/^include::(.+)\[(.?)\]$/) do |match| 
+        open(File.join(path[0], $1)).read
+      end
+      
       @element = AsciiDoc::AsciiElement.new(:document)
       @lines = AsciiDoc::AsciiLines.new(content)
       parse_lines
@@ -38,8 +46,7 @@ module AsciiDoc
       Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
       
       # render html into index.html file
-      html = File.new("./#{output_folder}/index.html", "w+")
-      html.puts(result)
+      File.open("./#{output_folder}/index.html", 'w') {|f| f.write(result) }
       
       # copy all content in /public to the output folder
       FileUtils.cp_r "./#{template_folder}/public/.", "./#{output_folder}"
@@ -51,7 +58,15 @@ module AsciiDoc
        Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
        file_path = render_html(template_folder, "#{output_folder}/temp")
        output_path = "#{output_folder}/index.pdf"
-       `wkhtmltopdf #{file_path} #{output_path} --header-html #{template_folder}/header.html`
+       
+       args = ""
+       # if template folder has header.html.erb, set header settings to use this header
+       args += " --header-html #{template_folder}/views/header.html" if File.exist?(File.join(template_folder, "views", "header.html"))
+       
+       # if template folder has footer.html.erb, set footer settings to use this header
+       args += " --footer-html #{template_folder}/views/footer.html" if File.exist?(File.join(template_folder, "views", "footer.html"))
+       
+       `bin/wkhtmltopdf-0.9 #{file_path} #{output_path}#{args}`
        FileUtils.rm_rf "./#{output_folder}/temp"
        "#{output_folder}/index.pdf"
     end
