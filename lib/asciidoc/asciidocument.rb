@@ -18,12 +18,12 @@ module AsciiDoc
       parse_lines
     end
     
-    def render(format, template_folder, output_folder)
+    def render(format, template_folder, output_folder, args = nil)
       case format
       when :html
-        render_html(template_folder, output_folder)
+        render_html(template_folder, output_folder, args)
       when :pdf
-        render_pdf(template_folder, output_folder)
+        render_pdf(template_folder, output_folder, args)
       else
         raise "Bad Render Format Specified"
       end
@@ -34,7 +34,7 @@ module AsciiDoc
     #  Specific Render Functions
     # ----------------------------------------------------------------
     
-    def render_html(template_folder, output_folder)
+    def render_html(template_folder, output_folder, args = nil)
       views = {}
       Dir["./#{template_folder}/views/*.html.erb"].each { |file| 
         symbol = file.split("/").last.split(".").first.to_sym
@@ -54,17 +54,16 @@ module AsciiDoc
       "#{output_folder}/index.html"
     end
     
-    def render_pdf(template_folder, output_folder)
+    def render_pdf(template_folder, output_folder, args = nil)
        Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
        file_path = render_html(template_folder, "#{output_folder}/temp")
        output_path = "#{output_folder}/index.pdf"
        
-       args = ""
-       # if template folder has header.html.erb, set header settings to use this header
-       args += " --header-html #{template_folder}/views/header.html" if File.exist?(File.join(template_folder, "views", "header.html"))
-       
-       # if template folder has footer.html.erb, set footer settings to use this header
-       args += " --footer-html #{template_folder}/views/footer.html" if File.exist?(File.join(template_folder, "views", "footer.html"))
+       if args
+         args = args.map { |hash| " #{hash[:option]} #{hash[:value]}" }.join
+       else
+         args = ""
+       end
        
        `bin/wkhtmltopdf-0.9 #{file_path} #{output_path}#{args}`
        FileUtils.rm_rf "./#{output_folder}/temp"
