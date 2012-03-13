@@ -25,9 +25,9 @@ Usage Examples
 You need to create a html template in order to output to HTML / PDF. Examples on this can be found in my "magicbookproject" github repo.
 
     # create a html file from your asciidoc file
-    @document = AsciiDoc::AsciiDocument.new(open("your.asciidoc").read)
+    @document = AsciiDoc::AsciiDocument.new("your.asciidoc")
     @document.render(:html, "template/folder", "output/folder")
 
     # create a pdf file from your asciidoc file
-    @document = AsciiDoc::AsciiDocument.new(open("your.asciidoc").read)
+    @document = AsciiDoc::AsciiDocument.new("your.asciidoc")
     @document.render(:pdf, "template/folder", "output/folder")
