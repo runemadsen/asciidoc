@@ -1,7 +1,7 @@
 plugin = {
   :name => :quote,
 	:regexp  => /^\[quote\]$/,
-	:handler => lambda { |lines, element|
+	:handler => lambda { |lines, element, counter|
     
     body = ""
     

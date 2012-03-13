@@ -1,7 +1,7 @@
 plugin = {
   :name => :bulleted_list,
 	:regexp  =>  /^-\s{1}/,
-	:handler => lambda { |lines, element|
+	:handler => lambda { |lines, element, counter|
     
     lis = []
     e = AsciiDoc::AsciiElement.new(:li)

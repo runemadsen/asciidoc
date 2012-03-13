@@ -2,9 +2,10 @@ module AsciiDoc
   
   class AsciiElement
 
-    attr_accessor :children, :type
+    attr_accessor :children, :type, :attributes
 
     def initialize(type)
+      @attributes = {}
       @type = type
       @children = []
     end
@@ -27,17 +28,6 @@ module AsciiDoc
       content
     end
     
-    # AsciiDoc Attributes
-    # ---------------------------------------------------
-    
-    def attributes
-      @attributes
-    end
-
-    def attributes=(att)
-      @attributes = att
-    end
-
   end
   
 end

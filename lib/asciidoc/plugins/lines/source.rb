@@ -2,7 +2,7 @@ plugin = {
   :order => 2,
   :name => :source,
 	:regexp  => /^\[source,[a-z]+\]$/,
-	:handler => lambda { |lines, element|
+	:handler => lambda { |lines, element, counter|
     
     lines.shift_line
     

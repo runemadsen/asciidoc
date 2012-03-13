@@ -1,7 +1,7 @@
 plugin = {
   :name => :table,
   :regexp  => /^(\.(?<title>.+)|\[(?<attrlist>.+)\]|(\|(=+)))$/,
-	:handler => lambda { |lines, element|
+	:handler => lambda { |lines, element, counter|
 	  
 	  # tables can start with either a heading, an attribute list or just the table header. This regex looks for them all,
 	  # and we have these crazy if statements to check which one was triggered.

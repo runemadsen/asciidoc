@@ -1,7 +1,7 @@
 plugin = {
   :name => :example_block,
   :regexp  => /^\[(?<attrlist>.+)\]$/,
-	:handler => lambda { |lines, element|
+	:handler => lambda { |lines, element, counter|
     
     attributes = AsciiDoc::AttributesHelper.parse_attributes(lines.current_line.gsub(plugin[:regexp], '\k<attrlist>'))
     

@@ -3,6 +3,7 @@ require 'asciidoc/attributeshelper'
 require 'asciidoc/asciiplugins'
 require 'asciidoc/asciicharplugins'
 
+require 'asciidoc/asciicounter'
 require 'asciidoc/asciielement'
 require 'asciidoc/asciilines'
 require 'asciidoc/asciiblock'

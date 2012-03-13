@@ -1,7 +1,7 @@
 plugin = {
   :name => :paragraph,
 	:regexp  =>  /^\w+/,
-	:handler => lambda { |lines, element|
+	:handler => lambda { |lines, element, counter|
     
     body = lines.current_line
     

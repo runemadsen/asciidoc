@@ -1,7 +1,7 @@
 plugin = {
   :name => :heading,
   :regexp => /^\w+/,
-  :handler => lambda { |lines, element|
+  :handler => lambda { |lines, element, counter|
   
     # TODO: Regex should use lines size to determine how many === are needed
     unless lines.next_line =~ /^={3,}$/

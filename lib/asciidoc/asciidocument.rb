@@ -5,6 +5,8 @@ module AsciiDoc
     include AsciiDoc::AsciiPlugins
 
     def initialize(file)
+      
+      @counter = AsciiCounter.new
       content = open(file).read
       
       # include all asciidoc files
@@ -30,6 +32,33 @@ module AsciiDoc
     end
   
     private
+    
+    #  Parsing
+    # ----------------------------------------------------------------
+    
+    def parse_lines
+      detect_plugins
+      while @lines.shift_line do
+        unless @lines.current_line =~ /^\s*$/
+          detect_plugins
+        end
+      end
+    end
+  
+    def detect_plugins()
+      found = false
+      Plugins.each do |p|
+        if p[:regexp] =~ @lines.current_line
+          if p[:handler].call(@lines, @element, @counter)
+            found = true
+            break
+          end
+        end
+      end
+      unless found
+        @element.children << "NOT FOUND: " + @lines.current_line
+      end
+    end
     
     #  Specific Render Functions
     # ----------------------------------------------------------------
@@ -68,30 +97,6 @@ module AsciiDoc
        `bin/wkhtmltopdf-0.9 #{file_path} #{output_path}#{args}`
        FileUtils.rm_rf "./#{output_folder}/temp"
        "#{output_folder}/index.pdf"
-    end
-  
-    def parse_lines
-      detect_plugins
-      while @lines.shift_line do
-        unless @lines.current_line =~ /^\s*$/
-          detect_plugins
-        end
-      end
-    end
-  
-    def detect_plugins()
-      found = false
-      Plugins.each do |p|
-        if p[:regexp] =~ @lines.current_line
-          if p[:handler].call(@lines, @element)
-            found = true
-            break
-          end
-        end
-      end
-      unless found
-        @element.children << "NOT FOUND: " + @lines.current_line
-      end
     end
   
   end
