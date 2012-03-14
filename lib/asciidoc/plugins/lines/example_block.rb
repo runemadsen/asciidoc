@@ -5,17 +5,17 @@ plugin = {
     
     attributes = AsciiDoc::AttributesHelper.parse_attributes(lines.current_line.gsub(plugin[:regexp], '\k<attrlist>'))
     
-    lines.shift_line
-    
     # TODO: Make it possible to have .My Block Title after the attributeslist
     
     # If there's a title for this block
-    if lines.current_line =~ /^\.(?<title>.+)/
-      attributes[:title] = lines.current_line[1..-1]
+    if lines.next_line =~ /^\.(?<title>.+)/
       lines.shift_line
-    elsif lines.current_line !=~ /^={3,}$/
+      attributes[:title] = lines.current_line[1..-1]
+    elsif lines.next_line !=~ /^={3,}$/
       return false
     end
+    
+    lines.shift_line
     
     body = ""
     

@@ -58,7 +58,8 @@ module AsciiDoc
         end
       end
       unless found
-        @element.children << "NOT FOUND: " + @lines.current_line
+        # if you didn't find a plugin, just use the line
+        @element.children << @lines.current_line
       end
     end
     
@@ -74,15 +75,25 @@ module AsciiDoc
         views[symbol] = ERB.new(open(file).read)
       }
       
-      # render everything. The main document render passes AsciiDocument in instead of AsciiElement
+      # run all filters
+      filters = AsciiDoc::Filters.constants
+      filter_results = {}
+      filters.each do |class_name|
+        filter_results[class_name.downcase.to_sym] = AsciiDoc::Filters.const_get(class_name).filter(element.children)
+      end
+      
+      # render everything.
       raise Exception, "Main Document template file doesn't exist" if views[:document].nil?
       document = self
       
-      if(views[:toc])
-        hierarchy = TOCHelper.get_hierachy(element.children)
-        toc = views[:toc].result(binding)
-      end
+      #if(views[:toc])
+        #hierarchy = TOCHelper.get_hierachy(element.children)
+        #toc = views[:toc].result(binding)
+      #end
       result = views[:document].result(binding)
+      
+      # look through generated result and put in TOC if [toc] is specified
+      # result.gsub!(/\[TOC\]/, toc)
       
       # if output folder does not exist, create it
       Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
