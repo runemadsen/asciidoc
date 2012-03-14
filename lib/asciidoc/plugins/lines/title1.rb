@@ -4,7 +4,9 @@ plugin = {
 	:handler => lambda { |lines, element, counter|
     title = AsciiDoc::AsciiElement.new(plugin[:name])
     title.attributes[:count] = counter.increment(plugin[:name])
-    title.children << lines.current_line.gsub!(plugin[:regexp], '\k<title1>')
+    name = lines.current_line.gsub!(plugin[:regexp], '\k<title1>')
+    title.attributes[:href] = name.gsub(" ", "-").downcase
+    title.children << name
     element.children << title
 	}
 }
