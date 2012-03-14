@@ -85,15 +85,7 @@ module AsciiDoc
       # render everything.
       raise Exception, "Main Document template file doesn't exist" if views[:document].nil?
       document = self
-      
-      #if(views[:toc])
-        #hierarchy = TOCHelper.get_hierachy(element.children)
-        #toc = views[:toc].result(binding)
-      #end
       result = views[:document].result(binding)
-      
-      # look through generated result and put in TOC if [toc] is specified
-      # result.gsub!(/\[TOC\]/, toc)
       
       # if output folder does not exist, create it
       Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
