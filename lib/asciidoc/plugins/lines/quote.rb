@@ -14,9 +14,6 @@ plugin = {
       body += lines.current_line
     end
     
-    puts "Quote body:"
-    puts body
-    
     quote = AsciiDoc::AsciiElement.new(plugin[:name])
     quote.attributes[:author] = author
     quote.children << body
