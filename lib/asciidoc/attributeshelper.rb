@@ -16,7 +16,7 @@ module AsciiDoc
           split << split[0]
           split[0] = i
         else
-          # remove double quotes around string
+          split[0] = split[0].to_sym
         end
         
         parsed[split[0]] = split[1]
