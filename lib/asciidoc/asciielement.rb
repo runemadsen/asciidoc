@@ -3,7 +3,7 @@ module AsciiDoc
   class AsciiElement
 
     attr_accessor :children, :type, :attributes
-
+    
     def initialize(type)
       @attributes = {}
       @type = type

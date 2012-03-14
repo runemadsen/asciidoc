@@ -9,6 +9,8 @@ require 'asciidoc/asciilines'
 require 'asciidoc/asciiblock'
 require 'asciidoc/asciichars'
 
+require 'asciidoc/tochelper'
+
 # require plugins in order of execution
 require 'asciidoc/plugins/lines/heading'
 require 'asciidoc/plugins/lines/table'

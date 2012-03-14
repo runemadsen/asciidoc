@@ -2,6 +2,8 @@ module AsciiDoc
   
   class AsciiDocument
   
+    attr_accessor :element
+    
     include AsciiDoc::AsciiPlugins
 
     def initialize(file)
@@ -64,12 +66,23 @@ module AsciiDoc
     # ----------------------------------------------------------------
     
     def render_html(template_folder, output_folder, args = nil)
+      
+      # require all views
       views = {}
       Dir["./#{template_folder}/views/*.html.erb"].each { |file| 
         symbol = file.split("/").last.split(".").first.to_sym
         views[symbol] = ERB.new(open(file).read)
       }
-      result = @element.render(views)
+      
+      # render everything. The main document render passes AsciiDocument in instead of AsciiElement
+      raise Exception, "Main Document template file doesn't exist" if views[:document].nil?
+      document = self
+      
+      if(views[:toc])
+        hierarchy = TOCHelper.get_hierachy(element.children)
+        toc = views[:toc].result(binding)
+      end
+      result = views[:document].result(binding)
       
       # if output folder does not exist, create it
       Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
