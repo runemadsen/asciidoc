@@ -3,8 +3,8 @@
 	<% unless @header.empty? %>
 		<thead>
 			<tr>
-				<% @header.each do |entry| %>
-					<th><%= entry %></th>
+				<% @header.each do |el| %>
+					<th><%= el.render(views, filter_results) %></th>
 				<% end %>
 			</tr>
 		</thead>
@@ -13,8 +13,8 @@
 	<% unless @footer.empty? %>
 		<tfoot>
 			<tr>
-				<% @footer.each do |entry| %>
-					<th><%= entry %></th>
+				<% @footer.each do |el| %>
+					<th><%= el.render(views, filter_results) %></th>
 				<% end %>
 			</tr>
 		</tfoot>
@@ -23,8 +23,8 @@
 	<tbody>
 	<% @rows.each do |row| %>
 		<tr>
-			<% row.each do |entry| %>
-				<td><%= entry %></td>
+			<% row.each do |el| %>
+				<td><%= el.render(views, filter_results) %></td>
 			<% end %>
 		</tr>
 	<% end %>
