@@ -1,0 +1,9 @@
+<table>
+	<% @rows.each do |row| %>
+		<tr>
+			<% row.each do |entry| %>
+				<td><%= entry %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>

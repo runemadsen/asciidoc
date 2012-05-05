@@ -14,7 +14,6 @@ module AsciiDoc
           unless child.is_a? String
             if child.type == :title
               child.type = "h#{level}".to_sym
-              puts "h#{level}"
             end
             if child.children
               find_title_in_children(child, child.type == :section ? level + 1 : level)

@@ -28,14 +28,8 @@ module AsciiDoc
     end
     
     def render(views, filter_results)      
-      # if there's a template view, use it
       if views[xml_to_view_name(@type)]
         views[xml_to_view_name(@type)].result(binding)      
-      
-      # TODO: other wise if there is a default view, use it
-      
-      # else if there is no view at all, just render the children as bare string
-      # this is all the elements that we don't want tags for
       else
         render_children(views, filter_results)
       end

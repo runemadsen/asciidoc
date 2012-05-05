@@ -10,7 +10,7 @@ module AsciiDoc
       end
       
       def self.find_id_in_children(element)
-        element.children.each do |child|
+        element.children.each_with_index do |child, i|
           unless child.is_a? String
             if child.attributes["id"]
               child.children.insert(0, AnchorElement.new(child.attributes["id"]))
