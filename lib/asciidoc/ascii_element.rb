@@ -70,7 +70,8 @@ module AsciiDoc
         "itemizedlist" => "list",
         "orderedlist" => "list",
         "inlinemediaobject" => "media",
-        "mediaobject" => "media"
+        "mediaobject" => "media",
+        "programlisting" => "source"
       }
       convert[xml_name] || xml_name
     end
