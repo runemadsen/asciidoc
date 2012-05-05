@@ -4,7 +4,7 @@
 #require 'asciidoc/asciicharplugins'
 
 #require 'asciidoc/asciicounter'
-require 'asciidoc/asciielement'
+require 'asciidoc/ascii_element'
 #require 'asciidoc/asciilines'
 #require 'asciidoc/asciiblock'
 #require 'asciidoc/asciichars'
@@ -40,4 +40,4 @@ Dir[File.dirname(__FILE__) + '/asciidoc/elements/*.rb'].each {|file| require fil
 #Dir[File.dirname(__FILE__) + '/asciidoc/plugins/lines/*.rb'].each {|file| require file }
 #Dir[File.dirname(__FILE__) + '/asciidoc/plugins/chars/*.rb'].each {|file| require file }
 
-require 'asciidoc/asciidocument'
+require 'asciidoc/ascii_document'
