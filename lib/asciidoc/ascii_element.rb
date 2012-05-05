@@ -20,7 +20,6 @@ module AsciiDoc
         if class_exists?(xml_to_model_name(node.name))
           @children << to_class(xml_to_model_name(node.name)).new(node)
         elsif node.text?
-          # this takes for granted that textnodes never have attributes, as we throw all that away
           @children << node.content unless node.content == "\n"
         else
           @children << AsciiDoc::AsciiElement.new(node)
@@ -60,7 +59,8 @@ module AsciiDoc
         :article => :document,
         :simpara => :paragraph,
         :itemizedlist => :ul,
-        :orderedlist => :ol
+        :orderedlist => :ol,
+        :imageobject => :img
       }
       convert[xml_name] || xml_name
     end
@@ -68,7 +68,9 @@ module AsciiDoc
     def xml_to_model_name(xml_name)
       convert = {
         "itemizedlist" => "list",
-        "orderedlist" => "list"
+        "orderedlist" => "list",
+        "inlinemediaobject" => "media",
+        "mediaobject" => "media"
       }
       convert[xml_name] || xml_name
     end
