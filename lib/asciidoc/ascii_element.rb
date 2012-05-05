@@ -71,7 +71,10 @@ module AsciiDoc
         "orderedlist" => "list",
         "inlinemediaobject" => "media",
         "mediaobject" => "media",
-        "programlisting" => "source"
+        "programlisting" => "source",
+        "articleinfo" => "info",
+        "ulink" => "link"
+        
       }
       convert[xml_name] || xml_name
     end

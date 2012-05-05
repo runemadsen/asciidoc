@@ -8,18 +8,15 @@ module AsciiDoc
 
     def initialize(file)
       @xml = `asciidoc -b docbook45 -o - "#{File.expand_path(file)}"`
-      puts "----------- START XML -----------"
-      puts @xml
-      puts "----------- END XML ------------"
       parse_xml
     end
     
-    def render(format, template_folder, output_folder, args = nil)
+    def render(format, template_folder = nil, output_file = nil, args = nil)
       case format
       when :html
-        render_html(template_folder, output_folder, args)
+        render_html(template_folder, output_file, args)
       when :pdf
-        render_pdf(template_folder, output_folder, args)
+        render_pdf(template_folder, output_file, args)
       else
         raise "Bad Render Format Specified"
       end
@@ -38,40 +35,45 @@ module AsciiDoc
     #  Specific Render Functions
     # ----------------------------------------------------------------
     
-    def render_html(template_folder, output_folder, args = nil)
+    def render_html(template_folder, output_file, args)
       
-      # require all views
       views = {}
-      Dir["./#{template_folder}/views/*.html.erb"].each { |file| 
+      
+      # require default views
+      Dir[File.dirname(__FILE__) + "/views/*.html.erb"].each { |file|
         symbol = file.split("/").last.split(".").first.to_sym
         views[symbol] = ERB.new(open(file).read)
       }
       
-      # run all filters
-      # filters = AsciiDoc::Filters.constants
-      filter_results = {}
-      #       filters.each do |class_name|
-      #         filter_results[class_name.downcase.to_sym] = AsciiDoc::Filters.const_get(class_name).filter(element.children)
-      #       end
+      # override with custom views
+      if template_folder
+        Dir["./#{template_folder}/*.html.erb"].each { |file| 
+          symbol = file.split("/").last.split(".").first.to_sym
+          views[symbol] = ERB.new(open(file).read)
+        }
+      end
       
-      # render everything.
-      # raise Exception, "Main Document template file doesn't exist" if views[:document].nil?
-      #       document = self
+      # run all filters
+      filters = AsciiDoc::Filters.constants
+      filter_results = {}
+      filters.each do |class_name|
+        filter_results[class_name.downcase.to_sym] = AsciiDoc::Filters.const_get(class_name).filter(element)
+      end
+    
+      # render the html
       result = element.render(views, filter_results)
       
-      # if output folder does not exist, create it
-      Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
-      
-      # render html into index.html file
-      File.open("./#{output_folder}/index.html", 'w') {|f| f.write(result) }
-      
-      # copy all content in /public to the output folder
-      FileUtils.cp_r "./#{template_folder}/public/.", "./#{output_folder}"
-      
-      "#{output_folder}/index.html"
+      # return html or output to file
+      if output_file
+        FileUtils.mkdir_p(File.dirname(output_file)) 
+        File.open(output_file, 'w') {|f| f.write(result) }
+        output_file
+      else
+        result
+      end
     end
     
-    def render_pdf(template_folder, output_folder, args = nil)
+    def render_pdf(template_folder, output_folder, args)
        Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
        file_path = render_html(template_folder, "#{output_folder}/temp")
        output_path = "#{output_folder}/index.pdf"
