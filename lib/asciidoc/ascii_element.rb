@@ -82,7 +82,7 @@ module AsciiDoc
     end
     
     def node_content(xml, node_name)
-      node = xml.at_xpath("//#{node_name}")
+      node = xml.at_xpath(".//#{node_name}")
       node ? node.content : nil
     end
       

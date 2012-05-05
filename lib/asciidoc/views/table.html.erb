@@ -1,4 +1,26 @@
 <table>
+	
+	<% unless @header.empty? %>
+		<thead>
+			<tr>
+				<% @header.each do |entry| %>
+					<th><%= entry %></th>
+				<% end %>
+			</tr>
+		</thead>
+	<% end %>
+	
+	<% unless @footer.empty? %>
+		<tfoot>
+			<tr>
+				<% @footer.each do |entry| %>
+					<th><%= entry %></th>
+				<% end %>
+			</tr>
+		</tfoot>
+	<% end %>
+	
+	<tbody>
 	<% @rows.each do |row| %>
 		<tr>
 			<% row.each do |entry| %>
@@ -6,4 +28,6 @@
 			<% end %>
 		</tr>
 	<% end %>
+	</tbody>
+	
 </table>
