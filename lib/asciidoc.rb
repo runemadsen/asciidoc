@@ -12,6 +12,9 @@ require 'asciidoc/asciielement'
 # require filters
 #require 'asciidoc/filters/toc'
 
+# require all elements
+Dir[File.dirname(__FILE__) + '/asciidoc/elements/*.rb'].each {|file| require file }
+
 # require plugins in order of execution
 # require 'asciidoc/plugins/lines/heading'
 # require 'asciidoc/plugins/lines/table'
