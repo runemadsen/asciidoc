@@ -17,8 +17,8 @@ module AsciiDoc
     
     def parse(xml)   
       xml.children.each do |node|
-        if class_exists?(node.name)
-          @children << to_class(node.name).new(node)
+        if class_exists?(xml_to_model_name(node.name))
+          @children << to_class(xml_to_model_name(node.name)).new(node)
         elsif node.text?
           # this takes for granted that textnodes never have attributes, as we throw all that away
           @children << node.content unless node.content == "\n"
@@ -58,7 +58,17 @@ module AsciiDoc
     def xml_to_view_name(xml_name)
       convert = {
         :article => :document,
-        :simpara => :paragraph
+        :simpara => :paragraph,
+        :itemizedlist => :ul,
+        :orderedlist => :ol
+      }
+      convert[xml_name] || xml_name
+    end
+    
+    def xml_to_model_name(xml_name)
+      convert = {
+        "itemizedlist" => "list",
+        "orderedlist" => "list"
       }
       convert[xml_name] || xml_name
     end
