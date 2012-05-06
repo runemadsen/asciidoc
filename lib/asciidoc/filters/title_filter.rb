@@ -10,14 +10,12 @@ module AsciiDoc
       end
       
       def self.find_title_in_children(element, level)
-        element.children.each do |child|
-          unless child.is_a? String
-            if child.type == :title
-              child.type = "h#{level}".to_sym
-            end
-            if child.children
-              find_title_in_children(child, child.type == :section ? level + 1 : level)
-            end
+        element.children.each do |child|          
+          if child.type == :title
+            child.type = "h#{level}".to_sym
+          end
+          if child.children
+            find_title_in_children(child, child.type == :section ? level + 1 : level)
           end
         end
       end

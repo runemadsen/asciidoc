@@ -19,8 +19,6 @@ module AsciiDoc
       xml.children.each do |node|
         if class_exists?(xml_to_model_name(node.name))
           @children << to_class(xml_to_model_name(node.name)).new(node)
-        elsif node.text?
-          @children << node.content unless node.content == "\n"
         else
           @children << AsciiDoc::AsciiElement.new(node)
         end
@@ -37,11 +35,7 @@ module AsciiDoc
 
     def render_children(views, filter_results)
       @children.map { |child|
-        if child.is_a? String
-          child
-        else
           child.render(views, filter_results)
-        end
       }.join
     end
     
