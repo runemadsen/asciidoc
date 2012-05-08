@@ -33,7 +33,7 @@ class AsciidocTest < Test::Unit::TestCase
   
   def test_headings
     result = get_result("= Heading1\n\nThis is some text\n\n== Heading2\n\n=== Heading3\n\n==== Heading4\n\n===== Heading5")
-    # assert_equal(result.css("h1").first.content, "Heading1") # H1's are in the articleinfo tag and are not outputted right now
+    assert_equal(result.css("h1").first.content, "Heading1")
     assert_equal(result.css("h2").first.content, "Heading2")
     assert_equal(result.css("h3").first.content, "Heading3")
     assert_equal(result.css("h4").first.content, "Heading4")
@@ -50,6 +50,63 @@ class AsciidocTest < Test::Unit::TestCase
     assert_equal(result.css("li").size, 6)
     assert_equal(result.css("ul li").first.content.strip, "First ul")
     assert_equal(result.css("ol li").first.content.strip, "First ol")
+  end
+  
+  def test_blockquote
+    syntax = <<-EOS
+[quote, Rune Madsen, Best Quotes]
+____________________________________________________________________
+ITP is great!
+____________________________________________________________________
+EOS
+    
+    result = get_result(syntax)
+    assert result.css("blockquote").first.content =~ /ITP is great!/
+    assert result.css("blockquote").first.content =~ /Rune Madsen/
+  end
+  
+  def test_admonition_blocks
+    syntax = <<-EOS
+[NOTE]
+.A note title
+=====================================================================
+This is a note
+The note has two lines
+=====================================================================
+
+[TIP]
+.A tip title
+=====================================================================
+This is a tip
+The tip has two lines
+=====================================================================
+
+[IMPORTANT]
+.A important title
+=====================================================================
+This is an important box
+The important box has two lines
+=====================================================================
+
+[WARNING]
+.A warning title
+=====================================================================
+This is a warning
+The warning has two lines
+=====================================================================
+
+[CAUTION]
+.A caution title
+=====================================================================
+This is a caution
+The caution has two lines
+=====================================================================
+EOS
+    
+    result = get_result(syntax)
+    puts result
+    assert result.css("div.note").first.content =~ /This is a note\sThe note has two lines/
+    assert_equal("A note title", result.css("div.note h1").first.content) # this is h1 because there are no heading or titles
   end
   
 end

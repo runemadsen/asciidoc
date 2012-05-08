@@ -61,8 +61,12 @@ module AsciiDoc
         "mediaobject" => "media",
         "programlisting" => "source",
         "articleinfo" => "info",
-        "ulink" => "link"
-        
+        "ulink" => "link",
+        "note" => "admonition",
+        "tip" => "admonition",
+        "important" => "admonition",
+        "warning" => "admonition",
+        "caution" => "admonition"
       }
       convert[xml_name] || xml_name
     end

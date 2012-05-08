@@ -15,6 +15,11 @@ module AsciiDoc
       }
     end
     
+    def parse_metadata(xml)
+      @attributes = xml.attributes
+      @type = :info
+    end
+    
   end
   
 end
