@@ -1,4 +1,6 @@
 require 'nokogiri'
+require 'posix/spawn'
+require 'erb'
 
 module AsciiDoc
   
@@ -6,17 +8,21 @@ module AsciiDoc
   
     attr_accessor :element
 
-    def initialize(file)
-      @xml = `asciidoc -b docbook45 -o - "#{File.expand_path(file)}"`
+    def initialize(file_or_raw_asciidoc)
+      if file_or_raw_asciidoc =~ /\.txt|\.asciidoc|\.asc/
+        @xml = `asciidoc -b docbook45 -o - "#{File.expand_path(file_or_raw_asciidoc)}"`
+      else
+        @xml = POSIX::Spawn::Child.new('asciidoc -b docbook45 -o - -', :input => file_or_raw_asciidoc).out
+      end
       parse_xml
     end
     
-    def render(format, template_folder = nil, output_file = nil, args = nil)
+    def render(format, args = {})
       case format
       when :html
-        render_html(template_folder, output_file, args)
+        render_html(args)
       when :pdf
-        render_pdf(template_folder, output_file, args)
+        render_pdf(args)
       else
         raise "Bad Render Format Specified"
       end
@@ -28,14 +34,16 @@ module AsciiDoc
     # ----------------------------------------------------------------
     
     def parse_xml
-      @xml_doc = Nokogiri::XML(@xml)
+      @xml_doc = Nokogiri::XML(@xml) do |config|
+        config.noblanks
+      end
       @element = AsciiDoc::AsciiElement.new(@xml_doc.root)
     end
     
     #  Specific Render Functions
     # ----------------------------------------------------------------
     
-    def render_html(template_folder, output_file, args)
+    def render_html(args)
       
       views = {}
       
@@ -46,8 +54,8 @@ module AsciiDoc
       }
       
       # override with custom views
-      if template_folder
-        Dir["./#{template_folder}/*.html.erb"].each { |file| 
+      if args[:template]
+        Dir["./#{args[:template]}/*.html.erb"].each { |file| 
           symbol = file.split("/").last.split(".").first.to_sym
           views[symbol] = ERB.new(open(file).read)
         }
@@ -61,22 +69,26 @@ module AsciiDoc
       end
     
       # render the html
-      result = element.render(views, filter_results)
+      if args[:layout] == false
+        result = element.render_children(views, filter_results)
+      else
+        result = element.render(views, filter_results)
+      end
       
       # return html or output to file
-      if output_file
-        FileUtils.mkdir_p(File.dirname(output_file)) 
-        File.open(output_file, 'w') {|f| f.write(result) }
-        output_file
+      if args[:output]
+        FileUtils.mkdir_p(File.dirname(args[:output])) 
+        File.open(args[:output], 'w') {|f| f.write(result) }
+        args[:output]
       else
         result
       end
     end
     
-    def render_pdf(template_folder, output_folder, args)
-       Dir.mkdir("./#{output_folder}") unless File.exists?("./#{output_folder}")
-       file_path = render_html(template_folder, "#{output_folder}/temp")
-       output_path = "#{output_folder}/index.pdf"
+    def render_pdf(args)
+       Dir.mkdir("./#{args[:output]}") unless File.exists?("./#{args[:output]}")
+       file_path = render_html(args)
+       output_path = "#{args[:output]}/index.pdf"
        
        if args
          args = args.map { |hash| " #{hash[:option]} #{hash[:value]}" }.join
@@ -85,8 +97,8 @@ module AsciiDoc
        end
        
        `bin/wkhtmltopdf-0.9 #{file_path} #{output_path}#{args}`
-       FileUtils.rm_rf "./#{output_folder}/temp"
-       "#{output_folder}/index.pdf"
+       FileUtils.rm_rf "./#{output}/temp"
+       "#{args[:output]}/index.pdf"
     end
   
   end

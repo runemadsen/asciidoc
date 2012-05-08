@@ -68,7 +68,11 @@ module AsciiDoc
     end
     
     def class_exists?(class_name)
-      AsciiDoc.const_defined?(class_name.capitalize + "Element")
+      begin
+        AsciiDoc.const_defined?(class_name.capitalize + "Element")
+      rescue 
+        false
+      end
     end
     
     def to_class(class_name)
