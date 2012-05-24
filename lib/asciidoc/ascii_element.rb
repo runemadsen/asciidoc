@@ -42,6 +42,8 @@ module AsciiDoc
     # All these functions should be moved to global place / module or something
     # -------------------------------------------------------
     
+    # This function is a reference map that tells the system to load a specific view for a specific XML node. 
+    # All node names that are not stated here will automatically load a view name corresponding to their name
     def xml_to_view_name(xml_name)
       convert = {
         :article => :document,
@@ -53,6 +55,8 @@ module AsciiDoc
       convert[xml_name] || xml_name
     end
     
+    # This function is a reference map that tells the system to load a specific model based on the xml node name.
+    # All node names that are not stated here will automatically try to find a model with their name, or pass through bare text if not found
     def xml_to_model_name(xml_name)
       convert = {
         "itemizedlist" => "list",

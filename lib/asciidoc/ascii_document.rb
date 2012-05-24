@@ -8,12 +8,17 @@ module AsciiDoc
   
     attr_accessor :element
 
-    def initialize(file_or_raw_asciidoc)
+    def initialize(file_or_raw_asciidoc, args = {})
       if file_or_raw_asciidoc =~ /\.txt|\.asciidoc|\.asc$/
         @xml = `asciidoc -b docbook45 -o - "#{File.expand_path(file_or_raw_asciidoc)}"`
       else
         @xml = POSIX::Spawn::Child.new('asciidoc -b docbook45 -o - -', :input => file_or_raw_asciidoc).out
       end
+      
+      if args[:debug_xml_to_file]
+        File.open(args[:debug_xml_to_file], 'w') {|f| f.write(@xml) }
+      end
+      
       parse_xml
     end
     

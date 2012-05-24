@@ -21,35 +21,35 @@ class AsciidocTest < Test::Unit::TestCase
   
   def test_link
     result = get_result("link:some/url[This is a link]")
-    assert_equal(result.css("a").first.attribute("href").value, "some/url")
-    assert_equal(result.css("a").first.content.strip, "This is a link")
+    assert_equal("some/url", result.css("a").first.attribute("href").value)
+    assert_equal("This is a link", result.css("a").first.content.strip)
   end
   
   def test_image
     result = get_result("image::myimage.jpg[This is an img]")
-    assert_equal(result.css("img").first.attribute("src").value, "myimage.jpg")
-    assert_equal(result.css("img").first.attribute("alt").value, "This is an img")
+    assert_equal("myimage.jpg", result.css("img").first.attribute("src").value)
+    assert_equal("This is an img", result.css("img").first.attribute("alt").value)
   end
   
   def test_headings
     result = get_result("= Heading1\n\nThis is some text\n\n== Heading2\n\n=== Heading3\n\n==== Heading4\n\n===== Heading5")
-    assert_equal(result.css("h1").first.content, "Heading1")
-    assert_equal(result.css("h2").first.content, "Heading2")
-    assert_equal(result.css("h3").first.content, "Heading3")
-    assert_equal(result.css("h4").first.content, "Heading4")
-    assert_equal(result.css("h5").first.content, "Heading5")
+    assert_equal("Heading1", result.css("h1").first.content)
+    assert_equal("Heading2", result.css("h2").first.content)
+    assert_equal("Heading3", result.css("h3").first.content)
+    assert_equal("Heading4", result.css("h4").first.content)
+    assert_equal("Heading5", result.css("h5").first.content)
   end
   
   def test_paragraph
     result = get_result("Hello my name is Rune")
-    assert_equal(result.css("p").first.content, "Hello my name is Rune")
+    assert_equal("Hello my name is Rune", result.css("p").first.content)
   end
   
   def test_lists
     result = get_result("- First ul\n- Second ul\n - Third ul\n1. First ol\n2. Second ol\n3. Third ol")
     assert_equal(result.css("li").size, 6)
-    assert_equal(result.css("ul li").first.content.strip, "First ul")
-    assert_equal(result.css("ol li").first.content.strip, "First ol")
+    assert_equal("First ul", result.css("ul li").first.content.strip)
+    assert_equal("First ol", result.css("ol li").first.content.strip)
   end
   
   def test_blockquote
@@ -104,9 +104,16 @@ The caution has two lines
 EOS
     
     result = get_result(syntax)
-    puts result
     assert result.css("div.note").first.content =~ /This is a note\sThe note has two lines/
     assert_equal("A note title", result.css("div.note h1").first.content) # this is h1 because there are no heading or titles
+  end
+  
+  def test_styles
+    result = get_result("Rune is a very *bold* _italic_ man that has a [line-through]*line through* himself and a [custom]*custom class*")
+    assert_equal("bold", result.css("strong").first.content)
+    assert_equal("italic", result.css("em").first.content)
+    assert_equal("line through", result.css("span.line-through").first.content)
+    assert_equal("custom class", result.css("span.custom").first.content)
   end
   
 end
