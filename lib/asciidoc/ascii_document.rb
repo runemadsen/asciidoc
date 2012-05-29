@@ -6,7 +6,7 @@ module AsciiDoc
   
   class AsciiDocument
   
-    attr_accessor :element
+    attr_accessor :element, :xml
 
     def initialize(file_or_raw_asciidoc, args = {})
       if file_or_raw_asciidoc =~ /\.txt|\.asciidoc|\.asc$/
@@ -91,19 +91,17 @@ module AsciiDoc
     end
     
     def render_pdf(args)
-       Dir.mkdir("./#{args[:output]}") unless File.exists?("./#{args[:output]}")
-       file_path = render_html(args)
-       output_path = "#{args[:output]}/index.pdf"
-       
-       if args
-         args = args.map { |hash| " #{hash[:option]} #{hash[:value]}" }.join
-       else
-         args = ""
-       end
-       
-       `bin/wkhtmltopdf-0.9 #{file_path} #{output_path}#{args}`
-       FileUtils.rm_rf "./#{output}/temp"
-       "#{args[:output]}/index.pdf"
+      raise Exception, "You need to specify an html file to render from when exporting to PDF" unless args[:html_file]
+      FileUtils.mkdir_p(File.dirname(args[:output])) 
+      
+      if args[:bin_args]
+        args[:bin_args] = args[:bin_args].map { |hash| " #{hash[:option]} #{hash[:value]}" }.join
+      else
+        args[:bin_args] = ""
+      end
+      puts "bin/wkhtmltopdf-0.9 #{args[:html_file]} #{args[:output]}"
+      `bin/wkhtmltopdf-0.9 #{args[:html_file]} #{args[:output]}`
+      args[:output]
     end
   
   end

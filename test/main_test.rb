@@ -10,9 +10,11 @@ class AsciidocTest < Test::Unit::TestCase
   
   include Rack::Test::Methods
   
-  def get_result(asc_string)
+  def get_result(asc_string, args = {})
     document = AsciiDoc::AsciiDocument.new(asc_string)
+    puts document.xml if args[:debug_xml]
     html = document.render(:html, :layout => false)
+    puts html if args[:debug_html]
     Nokogiri::HTML(html)
   end
   
@@ -109,11 +111,21 @@ EOS
   end
   
   def test_styles
-    result = get_result("Rune is a very *bold* _italic_ man that has a [line-through]*line through* himself and a [custom]*custom class*")
+    result = get_result("Rune is a very *bold* _italic_ man")
     assert_equal("bold", result.css("strong").first.content)
     assert_equal("italic", result.css("em").first.content)
+  end
+  
+  def test_custom_span
+    result = get_result("Rune has a [line-through]*line through* himself and a [custom]*custom class*")
     assert_equal("line through", result.css("span.line-through").first.content)
     assert_equal("custom class", result.css("span.custom").first.content)
+  end
+  
+  def test_super_sub_script
+    result = get_result("n^1^ and n~2~")
+    assert_equal("1", result.css("sup").first.content)
+    assert_equal("2", result.css("sub").first.content)
   end
   
 end
