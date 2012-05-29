@@ -116,6 +116,7 @@ The warning has two lines
 This is a caution
 The caution has two lines
 =====================================================================
+
 EOS
     
     result = get_result(syntax)
