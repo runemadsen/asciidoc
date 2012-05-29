@@ -91,6 +91,16 @@ module AsciiDoc
       node = xml.at_xpath(".//#{node_name}")
       node ? node.content : nil
     end
+    
+    # this is used by views to avoid crazy syntax when outputting attributes
+    def att(name, new_name = nil)
+      attr_name = new_name || name
+      if @attributes[name]
+        return "#{attr_name}=\"#{@attributes[name]}\""
+      else
+        return ""
+      end
+    end
       
   end
   

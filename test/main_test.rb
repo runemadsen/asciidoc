@@ -34,7 +34,7 @@ class AsciidocTest < Test::Unit::TestCase
   end
   
   def test_image_custom_attributes
-    result = get_result('image::myimage.jpg[classname="runesclass"]', :debug_html => true)
+    result = get_result('image::myimage.jpg[classname="runesclass"]')
     assert_equal("myimage.jpg", result.css("img").first.attribute("src").value)
     assert_equal("runesclass", result.css("img").first.attribute("class").value)
   end
