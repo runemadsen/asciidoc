@@ -33,6 +33,12 @@ class AsciidocTest < Test::Unit::TestCase
     assert_equal("This is an img", result.css("img").first.attribute("alt").value)
   end
   
+  def test_image_custom_attributes
+    result = get_result('image::myimage.jpg[classname="runesclass"]', :debug_html => true)
+    assert_equal("myimage.jpg", result.css("img").first.attribute("src").value)
+    assert_equal("runesclass", result.css("img").first.attribute("class").value)
+  end
+  
   def test_headings
     result = get_result("= Heading1\n\nThis is some text\n\n== Heading2\n\n=== Heading3\n\n==== Heading4\n\n===== Heading5")
     assert_equal("Heading1", result.css("h1").first.content)

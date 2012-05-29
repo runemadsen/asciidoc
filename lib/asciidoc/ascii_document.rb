@@ -10,9 +10,9 @@ module AsciiDoc
 
     def initialize(file_or_raw_asciidoc, args = {})
       if file_or_raw_asciidoc =~ /\.txt|\.asciidoc|\.asc$/
-        @xml = `asciidoc -b docbook45 -o - "#{File.expand_path(file_or_raw_asciidoc)}"`
+        @xml = `asciidoc -b docbook45 -f "#{File.dirname(__FILE__) + "/override.conf"}" -o - "#{File.expand_path(file_or_raw_asciidoc)}"`
       else
-        @xml = POSIX::Spawn::Child.new('asciidoc -b docbook45 -o - -', :input => file_or_raw_asciidoc).out
+        @xml = POSIX::Spawn::Child.new("asciidoc -b docbook45 -f '#{File.dirname(__FILE__) + "/override.conf"}' -o - -", :input => file_or_raw_asciidoc).out
       end
       
       if args[:debug_xml_to_file]
@@ -99,7 +99,7 @@ module AsciiDoc
       else
         args[:bin_args] = ""
       end
-      puts "bin/wkhtmltopdf-0.9 #{args[:html_file]} #{args[:output]}"
+
       `bin/wkhtmltopdf-0.9 #{args[:html_file]} #{args[:output]}`
       args[:output]
     end
