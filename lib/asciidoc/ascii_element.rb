@@ -66,6 +66,7 @@ module AsciiDoc
         "programlisting" => "source",
         "articleinfo" => "info",
         "ulink" => "link",
+        "example" => "admonition",
         "note" => "admonition",
         "tip" => "admonition",
         "important" => "admonition",

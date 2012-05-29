@@ -34,9 +34,10 @@ class AsciidocTest < Test::Unit::TestCase
   end
   
   def test_image_custom_attributes
-    result = get_result('image::myimage.jpg[classname="runesclass"]')
+    result = get_result('image::myimage.jpg[classname="runesclass", alt="This is an img"]')
     assert_equal("myimage.jpg", result.css("img").first.attribute("src").value)
     assert_equal("runesclass", result.css("img").first.attribute("class").value)
+    assert_equal("This is an img", result.css("img").first.attribute("alt").value)
   end
   
   def test_headings
@@ -75,6 +76,12 @@ EOS
   
   def test_admonition_blocks
     syntax = <<-EOS
+.An example title
+=====================================================================
+This is an example box
+The example has two lines
+=====================================================================
+    
 [NOTE]
 .A note title
 =====================================================================
@@ -90,7 +97,7 @@ The tip has two lines
 =====================================================================
 
 [IMPORTANT]
-.A important title
+.An important title
 =====================================================================
 This is an important box
 The important box has two lines
@@ -112,8 +119,24 @@ The caution has two lines
 EOS
     
     result = get_result(syntax)
+
+    assert result.css("div.example").first.content =~ /This is an example box\sThe example has two lines/
+    assert_equal("An example title", result.css("div.example h1").first.content) # this is h1 because there are no heading or titles
+    
     assert result.css("div.note").first.content =~ /This is a note\sThe note has two lines/
     assert_equal("A note title", result.css("div.note h1").first.content) # this is h1 because there are no heading or titles
+    
+    assert result.css("div.tip").first.content =~ /This is a tip\sThe tip has two lines/
+    assert_equal("A tip title", result.css("div.tip h1").first.content) # this is h1 because there are no heading or titles
+    
+    assert result.css("div.important").first.content =~ /This is an important box\sThe important box has two lines/
+    assert_equal("An important title", result.css("div.important h1").first.content) # this is h1 because there are no heading or titles
+    
+    assert result.css("div.warning").first.content =~ /This is a warning\sThe warning has two lines/
+    assert_equal("A warning title", result.css("div.warning h1").first.content) # this is h1 because there are no heading or titles
+    
+    assert result.css("div.caution").first.content =~ /This is a caution\sThe caution has two lines/
+    assert_equal("A caution title", result.css("div.caution h1").first.content) # this is h1 because there are no heading or titles
   end
   
   def test_styles
