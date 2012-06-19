@@ -11,7 +11,7 @@ module AsciiDoc
     end
 
     def parse_metadata(xml)
-      @type = xml.name.to_sym
+      @type = xml.name.to_sym  
       @attributes = xml.attributes
     end
     
@@ -71,7 +71,8 @@ module AsciiDoc
         "tip" => "admonition",
         "important" => "admonition",
         "warning" => "admonition",
-        "caution" => "admonition"
+        "caution" => "admonition",
+        "asciidoc-br" => "linebreak"
       }
       convert[xml_name] || xml_name
     end

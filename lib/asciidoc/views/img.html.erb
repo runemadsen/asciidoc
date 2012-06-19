@@ -1,1 +1,2 @@
-<img src="<%= @src %>" alt="<%= @alt %>" <% if attributes["classname"] %>class="<%= attributes["classname"] %>"<% end %> />
+<img src="<%= @src %>" <% if attributes["classname"] %>class="<%= attributes["classname"] %>"<% end %> />
+<% if @alt %><span class="caption"><%= @alt %></span><% end %>
