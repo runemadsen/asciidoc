@@ -99,8 +99,10 @@ module AsciiDoc
       else
         args[:bin_args] = ""
       end
-
-      `bin/wkhtmltopdf-0.9 #{args[:html_file]} #{args[:output]}`
+      puts "running wkhtmltopdf:"
+      puts "bin/wkhtmltopdf-0.9 #{args[:html_file]} #{args[:output]}#{args[:bin_args]}"
+      
+      `bin/wkhtmltopdf-0.9 #{args[:html_file]} #{args[:output]}#{args[:bin_args]}`
       args[:output]
     end
   
