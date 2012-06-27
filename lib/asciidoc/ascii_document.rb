@@ -93,16 +93,7 @@ module AsciiDoc
     def render_pdf(args)
       raise Exception, "You need to specify an html file to render from when exporting to PDF" unless args[:html_file]
       FileUtils.mkdir_p(File.dirname(args[:output])) 
-      
-      if args[:bin_args]
-        args[:bin_args] = args[:bin_args].map { |hash| " #{hash[:option]} #{hash[:value]}" }.join
-      else
-        args[:bin_args] = ""
-      end
-      puts "running wkhtmltopdf:"
-      puts "bin/wkhtmltopdf-0.9 #{args[:html_file]} #{args[:output]}#{args[:bin_args]}"
-      
-      `bin/wkhtmltopdf-0.9 #{args[:html_file]} #{args[:output]}#{args[:bin_args]}`
+      `prince #{args[:html_file]} -o #{args[:output]}`  
       args[:output]
     end
   
