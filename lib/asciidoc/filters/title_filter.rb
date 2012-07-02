@@ -6,7 +6,7 @@ module AsciiDoc
     
     class TitleFilter
       def self.filter(element)
-        find_title_in_children(element, 1)
+        find_title_in_children(element, 2)
       end
       
       def self.find_title_in_children(element, level)
@@ -15,7 +15,8 @@ module AsciiDoc
             child.type = "h#{level}".to_sym
           end
           if child.children
-            find_title_in_children(child, child.type == :section ? level + 1 : level)
+            step_up = [:section, :admonition].include?(child.type)
+            find_title_in_children(child, step_up ? level + 1 : level)
           end
         end
       end

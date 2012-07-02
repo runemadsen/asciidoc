@@ -66,6 +66,7 @@ module AsciiDoc
         "mediaobject" => "media",
         "programlisting" => "source",
         "articleinfo" => "info",
+        "bookinfo" => "info",
         "ulink" => "link",
         "example" => "admonition",
         "note" => "admonition",
