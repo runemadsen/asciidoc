@@ -10,7 +10,7 @@ module AsciiDoc
 
     def initialize(file_or_raw_asciidoc, args = {})
       if file_or_raw_asciidoc =~ /\.txt|\.asciidoc|\.asc$/
-        @xml = `asciidoc -b docbook45 -f "#{File.dirname(__FILE__) + "/override.conf"}" -o - "#{File.expand_path(file_or_raw_asciidoc)}"`
+        @xml = `asciidoc -b docbook45 -d book -f "#{File.dirname(__FILE__) + "/override.conf"}" -o - "#{File.expand_path(file_or_raw_asciidoc)}"`
       else
         @xml = POSIX::Spawn::Child.new("asciidoc -b docbook45 -f '#{File.dirname(__FILE__) + "/override.conf"}' -o - -", :input => file_or_raw_asciidoc).out
       end
@@ -67,11 +67,15 @@ module AsciiDoc
       end
       
       # run all filters
-      filters = AsciiDoc::Filters.constants
       filter_results = {}
-      filters.each do |class_name|
-        filter_results[class_name.downcase.to_sym] = AsciiDoc::Filters.const_get(class_name).filter(element)
-      end
+      filter_results[:titlefilter] = AsciiDoc::Filters::TitleFilter.filter(element)
+      filter_results[:tocfilter] = AsciiDoc::Filters::TOCFilter.filter(element)
+      #filter_results[:anchorfilter] = AsciiDoc::Filters::AnchorFilter.filter(element)
+      
+      #filters = AsciiDoc::Filters.constants
+      #filters.each do |class_name|
+        #filter_results[class_name.downcase.to_sym] = AsciiDoc::Filters.const_get(class_name).filter(element)
+      #end
     
       # render the html
       if args[:layout] == false

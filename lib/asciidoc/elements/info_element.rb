@@ -5,19 +5,20 @@ module AsciiDoc
   
   class InfoElement < AsciiElement
     
+    def parse_metadata(xml)
+      @attributes = xml.attributes
+      @type = :info
+    end
+    
     def parse(xml)
       @date = node_content(xml, "date")
       @title = node_content(xml, "title")
-      @autor = {
+      @attributes["id"] = slug(@title)
+      @author = {
         :firstname => node_content(xml, "author//firstname"),
         :surname => node_content(xml, "author//surname"),
         :email => node_content(xml, "author//email")
       }
-    end
-    
-    def parse_metadata(xml)
-      @attributes = xml.attributes
-      @type = :info
     end
     
   end

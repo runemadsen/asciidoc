@@ -47,6 +47,7 @@ module AsciiDoc
     def xml_to_view_name(xml_name)
       convert = {
         :article => :document,
+        :book => :document,
         :simpara => :paragraph,
         :itemizedlist => :ul,
         :orderedlist => :ol,
@@ -103,6 +104,11 @@ module AsciiDoc
       else
         return ""
       end
+    end
+    
+    # this is used to create a slug from a name (used e.g. with all titles as their id number)
+    def slug(content)
+      content.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '').gsub("--", "-")
     end
       
   end

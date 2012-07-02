@@ -9,6 +9,7 @@ module AsciiDoc
     
     def parse(xml)
       
+      # parse title
       title = xml.css("title").first
       if title
         @title = title.children.first.to_s
