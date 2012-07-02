@@ -2,7 +2,17 @@ module AsciiDoc
   
   class TableElement < AsciiElement
     
+    def parse_metadata(xml)
+      @type = :table
+      @attributes = xml.attributes
+    end
+    
     def parse(xml)
+      
+      title = xml.css("title").first
+      if title
+        @title = title.children.first.to_s
+      end
       
       # parse header
       @header = xml.xpath(".//thead//row//entry").map do |entry|

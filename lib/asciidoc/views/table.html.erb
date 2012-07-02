@@ -1,31 +1,36 @@
-<table>
-	<% unless @header.empty? %>
-		<thead>
+<div class="table">
+	<% if @title %>
+		<h3><%= @title %></h3>
+	<% end %>
+	<table>
+		<% unless @header.empty? %>
+			<thead>
+				<tr>
+					<% @header.each do |el| %>
+						<th><%= el.render(views, filter_results) %></th>
+					<% end %>
+				</tr>
+			</thead>
+		<% end %>
+	
+		<% unless @footer.empty? %>
+			<tfoot>
+				<tr>
+					<% @footer.each do |el| %>
+						<th><%= el.render(views, filter_results) %></th>
+					<% end %>
+				</tr>
+			</tfoot>
+		<% end %>
+	
+		<tbody>
+		<% @rows.each do |row| %>
 			<tr>
-				<% @header.each do |el| %>
-					<th><%= el.render(views, filter_results) %></th>
+				<% row.each do |el| %>
+					<td><%= el.render(views, filter_results) %></td>
 				<% end %>
 			</tr>
-		</thead>
-	<% end %>
-	
-	<% unless @footer.empty? %>
-		<tfoot>
-			<tr>
-				<% @footer.each do |el| %>
-					<th><%= el.render(views, filter_results) %></th>
-				<% end %>
-			</tr>
-		</tfoot>
-	<% end %>
-	
-	<tbody>
-	<% @rows.each do |row| %>
-		<tr>
-			<% row.each do |el| %>
-				<td><%= el.render(views, filter_results) %></td>
-			<% end %>
-		</tr>
-	<% end %>
-	</tbody>
-</table>
+		<% end %>
+		</tbody>
+	</table>
+</div>

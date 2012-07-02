@@ -72,7 +72,8 @@ module AsciiDoc
         "important" => "admonition",
         "warning" => "admonition",
         "caution" => "admonition",
-        "asciidoc-br" => "linebreak"
+        "asciidoc-br" => "linebreak",
+        "informaltable" => "table"
       }
       convert[xml_name] || xml_name
     end
