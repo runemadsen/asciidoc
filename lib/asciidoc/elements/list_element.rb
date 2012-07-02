@@ -3,7 +3,6 @@ module AsciiDoc
   class ListElement < AsciiElement
     
     def parse_metadata(xml)
-      
       # get title and delete it so it's not a part of list
       title = xml.css("title").first
       if title

@@ -1,4 +1,4 @@
-<div class="list">
+<div class="list<%if @attributes["classname"]%> <%= @attributes["classname"]%><% end %>">
 	<% if @title %>
 		<h3><%= @title %></h3>
 	<% end %>
