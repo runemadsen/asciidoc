@@ -1,5 +1,10 @@
-<ol <% if @style %>class="<%= @style %>"<% end %>>
-	<% @children.each do |child| %>
-		<li><%= child.render_children(views, filter_results) %></li>
+<div class="list">
+	<% if @title %>
+		<h3><%= @title %></h3>
 	<% end %>
-</ol>
+	<ol <% if @style %>class="<%= @style %>"<% end %>>
+		<% @children.each do |child| %>
+			<li><%= child.render_children(views, filter_results) %></li>
+		<% end %>
+	</ol>
+</div>
