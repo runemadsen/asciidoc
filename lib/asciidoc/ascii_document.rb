@@ -97,7 +97,7 @@ module AsciiDoc
     def render_pdf(args)
       raise Exception, "You need to specify an html file to render from when exporting to PDF" unless args[:html_file]
       FileUtils.mkdir_p(File.dirname(args[:output])) 
-      `prince #{args[:html_file]} -o #{args[:output]}`  
+      `prince #{args[:html_file]} -o #{args[:output]} --javascript`  
       args[:output]
     end
   
