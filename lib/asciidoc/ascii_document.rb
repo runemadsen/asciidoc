@@ -70,7 +70,7 @@ module AsciiDoc
       filter_results = {}
       filter_results[:titlefilter] = AsciiDoc::Filters::TitleFilter.filter(element)
       filter_results[:tocfilter] = AsciiDoc::Filters::TOCFilter.filter(element)
-      #filter_results[:anchorfilter] = AsciiDoc::Filters::AnchorFilter.filter(element)
+      filter_results[:anchorfilter] = AsciiDoc::Filters::AnchorFilter.filter(element)
       
       #filters = AsciiDoc::Filters.constants
       #filters.each do |class_name|
