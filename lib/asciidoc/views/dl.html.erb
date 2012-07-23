@@ -1,0 +1,11 @@
+<div class="list<%if @attributes["classname"]%> <%= @attributes["classname"]%><% end %>">
+	<% if @title %>
+		<h4><%= @title %></h4>
+	<% end %>
+	<dl <% if @style %>class="<%= @style %>"<% end %>>
+		<% @children.each do |child| %>
+			<dt><%= child.children[0].render_children(views, filter_results) %></dt>
+			<dd><%= child.children[1].render_children(views, filter_results) %></dd>
+		<% end %>
+	</dl>
+</div>

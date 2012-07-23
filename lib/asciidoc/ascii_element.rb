@@ -51,6 +51,7 @@ module AsciiDoc
         :simpara => :paragraph,
         :itemizedlist => :ul,
         :orderedlist => :ol,
+        :variablelist => :dl,
         :imageobject => :img
       }
       convert[xml_name] || xml_name
@@ -62,6 +63,7 @@ module AsciiDoc
       convert = {
         "itemizedlist" => "list",
         "orderedlist" => "list",
+        "variablelist" => "list",
         "inlinemediaobject" => "media",
         "mediaobject" => "media",
         "programlisting" => "source",
