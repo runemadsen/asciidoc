@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'posix/spawn'
 require 'erb'
+require 'shellwords'
 
 module AsciiDoc
   
@@ -60,7 +61,7 @@ module AsciiDoc
       
       # override with custom views
       if args[:template]
-        Dir["./#{args[:template]}/*.html.erb"].each { |file| 
+        Dir["#{args[:template]}/*.html.erb"].each { |file| 
           symbol = file.split("/").last.split(".").first.to_sym
           views[symbol] = ERB.new(open(file).read)
         }
@@ -97,7 +98,7 @@ module AsciiDoc
     def render_pdf(args)
       raise Exception, "You need to specify an html file to render from when exporting to PDF" unless args[:html_file]
       FileUtils.mkdir_p(File.dirname(args[:output])) 
-      `prince #{args[:html_file]} -o #{args[:output]} --javascript`  
+      `prince #{Shellwords.escape(args[:html_file])} -o #{Shellwords.escape(args[:output])}`  
       args[:output]
     end
   
