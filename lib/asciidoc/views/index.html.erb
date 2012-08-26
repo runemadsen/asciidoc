@@ -1,0 +1,9 @@
+<div id="index">
+	<h2>Index</h2>
+	
+	<ul>
+	<% filter_results[:indexfilter].each do |term| %>
+		<li><a href="#<%= term[:link_id] %>" class="index-term-link"><%= term[:primary] %></a></li>
+	<% end %>
+	</ul>
+</div>

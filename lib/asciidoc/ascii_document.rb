@@ -135,6 +135,7 @@ module AsciiDoc
       filter_results[:titlefilter] = AsciiDoc::Filters::TitleFilter.filter(element)
       filter_results[:tocfilter] = AsciiDoc::Filters::TOCFilter.filter(element)
       filter_results[:anchorfilter] = AsciiDoc::Filters::AnchorFilter.filter(element)
+      filter_results[:indexfilter] = AsciiDoc::Filters::IndexFilter.filter(element)
       filter_results
       
       # run all filters
