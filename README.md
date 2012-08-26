@@ -1,10 +1,7 @@
 Prerequisites
 -------------
 
-You will need to have wkhtmltopdf installed with the patched version of QT. The easiest way to do this on OSX is with Homebrew:
-brew install WKHTMLTOPDF
-
-For other OS: https://github.com/pdfkit/pdfkit/wiki/Installing-WKHTMLTOPDF
+You will need to have prince XML installed. We are currently testing with this until we find a good free PDF renderer
 
 Plugins
 -------
