@@ -1,29 +1,13 @@
-Prerequisites
--------------
+About
+-----
 
-You will need to have prince XML installed. We are currently testing with this until we find a good free PDF renderer
+This gem makes it possible to publish books in PDF and HTML format using only Asciidoc, HTML (Ruby .erb views) and CSS.  It's built on the premise that you want to write books like you write a modern web application: You have your data (Asciidoc text) that you present in custom views (.erb files) that you can style with CSS. No need for crazy XSLT stylesheets.
 
-Plugins
--------
+The gem was developed for Daniel Shiffman's "The Nature of Code" book, released via Kickstarter funding. There is still some way to go, but we're working on hard on releasing a stable version 1.0. 
 
-All of the Asciidoc tags are specified as plugins. Each plugin has a regex that if true, a lmbda will get called that parses the tag and creates an asciielement from it.
 
-Filters
--------
-
-Filters are functions that run after the asciidoc has been parsed, but before it outputs to HTML. This allows to create filters that count elements, creates hierachy of elements, etc. This is currently used to generate a TOC. All views have access to the filter_results variable, that holds all results of all filters.
-
-Installation
+Dependencies
 ------------
 
-NB: This is a super early version of this gem. Use only for testing purposes
-
-To install the gem, simply run:
-
-    gem install 'asciidoc'
-
-Or the bundler equivalent:
-
-    bundle install 'asciidoc'
-
-For usage examples see my Magic-Book-Project repo.
+This gem uses the asciidoc program to parse text into XML.
+It also uses Prince XML for PDF rendering (we are using this until we find a good, open-source HTML to PDF renderer)
