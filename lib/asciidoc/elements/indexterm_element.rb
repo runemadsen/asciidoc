@@ -2,6 +2,8 @@ module AsciiDoc
   
   class IndextermElement < AsciiElement
     
+    attr_accessor :primary, :secondary, :link_id
+    
     def parse(xml)
       @type = :indexterm
       @primary =  node_content(xml, "primary")
@@ -11,14 +13,13 @@ module AsciiDoc
     
     # problem: same index tag creates the same id
     def index_term_id
-      @primary.downcase.gsub(" ", "-") + (@secondary ? "-" + @secondary.downcase.gsub(" ", "-") : "")
+      @primary.downcase.gsub(" ", "-") + (@secondary ? "-" + @secondary.downcase.gsub(" ", "-") : "") + "-" + UUID.new.generate
     end
     
     def to_hash
       {
-        :primary => @primary,
-        :secondary => @secondary,
-        :link_id => @link_id
+        :link_ids => [@link_id],
+        :children => {}
       }
     end
     

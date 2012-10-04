@@ -111,7 +111,11 @@ module AsciiDoc
     
     # this is used to create a slug from a name (used e.g. with all titles as their id number)
     def slug(content)
-      content.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '').gsub("--", "-")
+      if content
+        content.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '').gsub("--", "-")
+      else
+        content
+      end
     end
       
   end

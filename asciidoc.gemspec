@@ -20,4 +20,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rack-test"
   s.add_dependency "nokogiri"
   s.add_dependency "posix-spawn"
+  s.add_dependency "uuid"
 end

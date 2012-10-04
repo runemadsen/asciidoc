@@ -2,6 +2,7 @@ require 'nokogiri'
 require 'posix/spawn'
 require 'erb'
 require 'shellwords'
+require 'uuid'
 
 module AsciiDoc
   
