@@ -2,21 +2,31 @@
 	<h2>Index</h2>
 	
 	<ul>
-	<% filter_results[:indexfilter].each do |term_name,term| %>
+	<% cur_letter = "0" %>
+	<% hash = filter_results[:indexfilter] %>
+	<% keys = hash.keys.sort %>
+	<% keys.each do |key| %>
+		<% if key[0] != cur_letter %>
+			<% cur_letter = key[0].upcase %>
+			<li class="big-letter"><%= cur_letter %></li>
+		<% end %>
 		<li>
-			<%= term_name %>
-			<% unless term[:children].size > 0 %>
-				<% term[:link_ids].each_with_index do |link_id, i| %>
-					<a href="#<%= link_id %>" class="index-term-link">&nbsp;</a><% if i < term[:link_ids].size - 1 %>,<% end %>
+			<span class="index-term-name"><%= key %></span>
+			<% unless hash[key][:children].size > 0 %>
+				<% hash[key][:link_ids].each_with_index do |link_id, i| %>
+					<a href="#<%= link_id %>" class="index-term-link">&nbsp;</a><% if i < hash[key][:link_ids].size - 1 %>,<% end %>
 				<% end %>
 			<% end %>
-			<% unless term[:children].empty? %>
+			<% unless hash[key][:children].empty? %>
+				<% child_hash = hash[key][:children] %>
+				<% child_keys = child_hash.keys.sort %>
 				<ul>
-					<% term[:children].each do |child_name,child| %>
+					<% child_keys.each do |child_key| %>
 						<li>
-							<%= child_name %>
-							<% child[:link_ids].each_with_index do |child_link_id, j| %>
-								<a href="#<%= child_link_id %>" class="index-term-link">&nbsp;</a><% if j < child[:link_ids].size - 1 %>,<% end %>				<% end %>
+							<%= child_key %>
+							<% child_hash[child_key][:link_ids].each_with_index do |child_link_id, j| %>
+								<a href="#<%= child_link_id %>" class="index-term-link">&nbsp;</a><% if j < child_hash[child_key][:link_ids].size - 1 %>,<% end %>
+							<% end %>
 						</li>
 					<% end %>
 				</ul>
