@@ -93,7 +93,10 @@ module AsciiDoc
       chapter_children.each_with_index { |chapter, i|
         element.children = [chapter]
         chapter_result = element.render(views, filter_results)
-        render_to_file(chapter_result, File.join(folder, "chapter#{i}.html")) # render to index.html
+        doc = Nokogiri::HTML(chapter_result)
+        h2 = doc.css('h2[id]')
+        title = h2.length > 0 ? h2[0]['id'] : "chapter#{i}"
+        render_to_file(chapter_result, File.join(folder, "book", "#{title}", "index.html")) # render to index.html
       }
 
       args[:output]
