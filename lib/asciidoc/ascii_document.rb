@@ -80,7 +80,7 @@ module AsciiDoc
       filter_results = get_filter_results
       
       # get all elements
-      intro_children = element.children.find_all { |child| child.type == :preface || child.type == :info }
+      intro_children = element.children.find_all { |child| child.type == :info }
       chapter_children = element.children.find_all { |child| !intro_children.any? { |c| c.type == child.type} }
       
       # render index.html with toc
