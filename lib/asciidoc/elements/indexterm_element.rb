@@ -11,7 +11,6 @@ module AsciiDoc
       @link_id = index_term_id
     end
     
-    # problem: same index tag creates the same id
     def index_term_id
       @primary.downcase.gsub(" ", "-") + (@secondary ? "-" + @secondary.downcase.gsub(" ", "-") : "") + "-" + UUID.new.generate
     end
