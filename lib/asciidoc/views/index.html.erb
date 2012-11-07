@@ -4,12 +4,15 @@
 	<ul>
 	<% cur_letter = "0" %>
 	<% hash = filter_results[:indexfilter] %>
-	<% keys = hash.keys.sort %>
+	<% keys = hash.keys.sort {|x,y| x.downcase <=> y.downcase } %>
+
 	<% keys.each do |key| %>
-		<% if key[0] != cur_letter %>
+		
+		<% if key[0].downcase != cur_letter.downcase %>
 			<% cur_letter = key[0].upcase %>
 			<li class="big-letter"><%= cur_letter %></li>
 		<% end %>
+
 		<li>
 			<span class="index-term-name"><%= key %></span>
 			<% unless hash[key][:children].size > 0 %>
@@ -32,6 +35,7 @@
 				</ul>
 			<% end %>
 		</li>
+
 	<% end %>
 	</ul>
 
