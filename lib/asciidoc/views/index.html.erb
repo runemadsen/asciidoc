@@ -15,11 +15,13 @@
 
 		<li>
 			<span class="index-term-name"><%= key %></span>
+			
 			<% unless hash[key][:children].size > 0 %>
 				<% hash[key][:link_ids].each_with_index do |link_id, i| %>
 					<a href="#<%= link_id %>" class="index-term-link">&nbsp;</a><% if i < hash[key][:link_ids].size - 1 %>,<% end %>
 				<% end %>
 			<% end %>
+
 			<% unless hash[key][:children].empty? %>
 				<% child_hash = hash[key][:children] %>
 				<% child_keys = child_hash.keys.sort %>

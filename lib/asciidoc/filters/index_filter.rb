@@ -13,6 +13,8 @@ module AsciiDoc
           
           if child.type == :indexterm
             
+            puts "Primary: #{child.primary}"
+
             # always create primary
             if hie[child.primary]
               hie[child.primary][:link_ids] << child.link_id
