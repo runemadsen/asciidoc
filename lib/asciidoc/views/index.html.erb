@@ -4,19 +4,22 @@
 	<ul>
 	<% cur_letter = "0" %>
 	<% hash = filter_results[:indexfilter] %>
-	<% keys = hash.keys.sort %>
+	<% keys = hash.keys.sort {|x,y| x.downcase <=> y.downcase } %>
+
 	<% keys.each do |key| %>
-		<% if key[0] != cur_letter %>
+		
+		<% if key[0].downcase != cur_letter.downcase %>
 			<% cur_letter = key[0].upcase %>
 			<li class="big-letter"><%= cur_letter %></li>
 		<% end %>
+
 		<li>
 			<span class="index-term-name"><%= key %></span>
-			<% unless hash[key][:children].size > 0 %>
-				<% hash[key][:link_ids].each_with_index do |link_id, i| %>
-					<a href="#<%= link_id %>" class="index-term-link">&nbsp;</a><% if i < hash[key][:link_ids].size - 1 %>,<% end %>
-				<% end %>
-			<% end %>
+		
+			<% hash[key][:link_ids].each_with_index do |link_id, i| %>
+				<a href="#<%= link_id %>" class="index-term-link">&nbsp;</a><% if i < hash[key][:link_ids].size - 1 %>,<% end %>
+			<% end %>	
+
 			<% unless hash[key][:children].empty? %>
 				<% child_hash = hash[key][:children] %>
 				<% child_keys = child_hash.keys.sort %>
@@ -32,6 +35,7 @@
 				</ul>
 			<% end %>
 		</li>
+
 	<% end %>
 	</ul>
 

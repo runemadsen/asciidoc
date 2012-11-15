@@ -10,31 +10,30 @@ module AsciiDoc
       
       def self.find_index_terms_in_children(element, hie)
         element.children.each do |child|
+          
           if child.type == :indexterm
             
+            # always create primary
             if hie[child.primary]
-              hie[child.primary][:link_ids] << child.link_id unless child.secondary
+              hie[child.primary][:link_ids] << child.link_id
             else
-              hie[child.primary] = child.to_hash unless child.secondary
-            end
-            
-            if child.secondary
-              if hie[child.secondary]
-                if hie[child.secondary][:children][child.primary]
-                  hie[child.secondary][:children][child.primary][:link_ids] << child.link_id
-                else
-                  hie[child.secondary][:children][child.primary] = child.to_hash
-                end
-              else
-                hie[child.secondary] = child.to_hash
-                hie[child.secondary][:children][child.primary] = child.to_hash
-              end
+              hie[child.primary] = child.to_hash
             end
 
+            # if secondary is there, put in children
+            if child.secondary
+              if hie[child.primary][:children][child.secondary]
+                hie[child.primary][:children][child.secondary][:link_ids] << child.link_id
+              else
+                hie[child.primary][:children][child.secondary] = child.to_hash
+              end
+            end
           end
+
           if child.children
             find_index_terms_in_children(child, hie)
           end
+
         end
       end
       
