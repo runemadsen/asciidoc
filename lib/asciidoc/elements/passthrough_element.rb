@@ -4,7 +4,7 @@ module AsciiDoc
     
     def parse(xml)
       @type = :passthrough
-      @content = xml.children.to_s
+      @content = xml.text
     end
     
     # override render because a passthrough element has no children and always passes the text through
