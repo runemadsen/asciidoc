@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+
+require 'trollop'
+require 'asciidoc'
+
+opts = Trollop::options do
+  version "rasciidoc 0.0.2 (c) 2012 Rune Madsen, et al."
+  banner <<-EOS
+Rasciidoc is a Ruby-alternative to insane XSLT publishing pipelines.
+
+Usage:
+       rasciidoc [options]
+where [options] are:
+EOS
+    opt :layout, "Use Layout"
+    opt :output, "Output File", :type => :string
+    opt :template, "Template", :type => :string
+    opt :html, "HTML File", :type => :string
+    opt :format, "Output Format", :type => :string
+    opt :input, "Input File", :type => :string
+    opt :debug, "Debug XML File", :type => :string
+  end
+
+opts[:html_file] = opts[:html] if opts[:html]
+opts[:debug_xml_to_file] = opts[:debug] if opts[:debug]
+
+doc = AsciiDoc::AsciiDocument.new(opts[:input], opts)
+doc.render(opts[:format].to_sym, opts)
