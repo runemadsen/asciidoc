@@ -21,4 +21,5 @@ Gem::Specification.new do |s|
   s.add_dependency "nokogiri"
   s.add_dependency "posix-spawn"
   s.add_dependency "uuid"
+  s.add_dependency "trollop"
 end
