@@ -5,6 +5,7 @@ module AsciiDoc
     attr_accessor :primary, :secondary, :link_id
     
     def parse_metadata(xml)
+      @xml
       @type = :indexterm
       @attributes = xml.attributes
       @primary =  node_content(xml, "primary")
@@ -14,6 +15,10 @@ module AsciiDoc
     
     def index_term_id
       @primary.downcase.gsub(" ", "-") + (@secondary ? "-" + @secondary.downcase.gsub(" ", "-") : "") + "-" + UUID.new.generate
+    end
+
+    def primary_styled(views, filter_results)
+
     end
     
     def to_hash

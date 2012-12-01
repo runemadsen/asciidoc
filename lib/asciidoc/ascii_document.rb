@@ -46,6 +46,7 @@ module AsciiDoc
       @xml_doc = Nokogiri::XML(@xml) do |config|
         config.noblanks
       end
+
       @element = AsciiDoc::AsciiElement.new(@xml_doc.root)
     end
 
@@ -109,7 +110,20 @@ module AsciiDoc
     def render_pdf(args)
       raise Exception, "You need to specify an html file to render from when exporting to PDF" unless args[:html_file]
       FileUtils.mkdir_p(File.dirname(args[:output]))
-      `prince --javascript #{Shellwords.escape(args[:html_file])} -o #{Shellwords.escape(args[:output])} -i html5`
+
+      if args[:prince_args]
+        extras = args[:prince_args].map { |arg| 
+          if arg.is_a?(Array)
+            " #{arg.first} #{Shellwords.escape(arg.last)}" 
+          else
+            " #{arg}"
+          end
+        }.join("")
+      else
+        extras = ""
+      end
+
+      `prince --javascript #{Shellwords.escape(args[:html_file])} -o #{Shellwords.escape(args[:output])}#{extras}`
       args[:output]
     end
 
