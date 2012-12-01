@@ -4,8 +4,9 @@ module AsciiDoc
     
     attr_accessor :primary, :secondary, :link_id
     
-    def parse(xml)
+    def parse_metadata(xml)
       @type = :indexterm
+      @attributes = xml.attributes
       @primary =  node_content(xml, "primary")
       @secondary =  node_content(xml, "secondary")
       @link_id = index_term_id
@@ -17,8 +18,8 @@ module AsciiDoc
     
     def to_hash
       {
-        :link_ids => [@link_id],
-        :children => {}
+        :elements => [self],
+        :children => {},
       }
     end
     

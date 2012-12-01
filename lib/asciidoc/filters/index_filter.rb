@@ -15,7 +15,7 @@ module AsciiDoc
             
             # always create primary
             if hie[child.primary]
-              hie[child.primary][:link_ids] << child.link_id
+              hie[child.primary][:elements] << child
             else
               hie[child.primary] = child.to_hash
             end
@@ -23,7 +23,7 @@ module AsciiDoc
             # if secondary is there, put in children
             if child.secondary
               if hie[child.primary][:children][child.secondary]
-                hie[child.primary][:children][child.secondary][:link_ids] << child.link_id
+                hie[child.primary][:children][child.secondary][:elements] << child
               else
                 hie[child.primary][:children][child.secondary] = child.to_hash
               end
