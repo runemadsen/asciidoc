@@ -14,7 +14,8 @@ module AsciiDoc
     end
     
     def index_term_id
-      @primary.downcase.gsub(" ", "-") + (@secondary ? "-" + @secondary.downcase.gsub(" ", "-") : "") + "-" + UUID.new.generate
+      #@primary.downcase.gsub(" ", "-") + (@secondary ? "-" + @secondary.downcase.gsub(" ", "-") : "") + "-" + UUID.new.generate
+      slug(@primary) + (@secondary ? slug(@secondary) : "") + "-" + UUID.new.generate
     end
 
     def primary_styled(views, filter_results)
