@@ -16,12 +16,8 @@
 		<li>
 			<span class="index-term-name"><%= hash[key][:elements].first.children.first.render_children(views, filter_results) %></span>
 		
-			<% hash[key][:elements].each_with_index do |el, i| %>
-				<span class="index-link">
-					<% if i > 0 %>,<% end %>
-					<a href="#<%= el.link_id %>" class="index-term-link">&nbsp;</a>
-				</span>
-			<% end %>	
+			<% hash[key][:elements].each_with_index do |el, i| %><span class="index-link"><% if i > 0 %>,
+			<% end %><a href="#<%= el.link_id %>" class="index-term-link">&nbsp;</a></span><% end %>	
 
 			<% unless hash[key][:children].empty? %>
 				<% child_hash = hash[key][:children] %>
@@ -31,11 +27,7 @@
 						<li>
 							<span class="index-term-name"><%= child_hash[child_key][:elements].first.children.last.render_children(views, filter_results) %></span>
 							
-							<% child_hash[child_key][:elements].each_with_index do |child_el, j| %>
-								<span class="index-link">
-									<% if j > 0 %>,<% end %>
-									<a href="#<%= child_el.link_id %>" class="index-term-link">&nbsp;</a>
-								</span>
+							<% child_hash[child_key][:elements].each_with_index do |child_el, j| %><span class="index-link"><% if j > 0 %>,<% end %><a href="#<%= child_el.link_id %>" class="index-term-link">&nbsp;</a></span>
 							<% end %>
 						</li>
 					<% end %>
